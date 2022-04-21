@@ -1,0 +1,59 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class = 'main-bg'>
+        <div class = 'main-wrapper'>
+            <div class = 'chapter-heading'>
+                <h1>{{ chapter.name }}</h1>
+            </div>
+            <div class = 'chapter-info'>
+                <p>{{ chapter.diary.author|title }}, Author</p>
+                <p>{{ chapter.created_on }}</p>
+            </div>
+            <div class = 'chapter-content'>
+                {{ chapter.content|safe }}
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .main-bg {
+            display: flex;
+            flex-direction: column;
+            border: 0px solid black;
+            margin-top: 20px;
+            width: 100%;
+            padding: 30px;
+            background-color: aliceblue;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            border: 0px solid black;
+            margin-top: 15px;
+            width: 100%;
+            padding: 50px;
+            margin-top: 50px;
+            background-color: white;         
+        }
+
+        .main-wrapper > * {
+            margin-top: 10px;
+        }
+
+        .chapter-info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            color: rgb(107, 107, 107);
+            padding-left: 10px;
+            padding-right: 10px;
+            font-size: 20px;
+        }
+    </style>
+{% endblock %}

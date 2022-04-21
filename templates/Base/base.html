@@ -1,19 +1,58 @@
-<html>
+{% load static %}
+<!DOCTYPE HTML>
     <head>
-        <title>{% block title %}{% endblock %}</title>
-        {% block extra_styles %}
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        {% endblock %}
+        {% block title %}{% endblock %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
+        <link rel = "stylesheet" href = "{% static 'css/base.css' %}">
+        {% block extra_css %}{% endblock %}
     </head>
 
     <body>
-        {% block content %}
-        {% endblock %}
+        <nav class="nav">
+            <a href="#" class="sidebar-toggle"><i class="fa fa-2x fa-bars"></i></a>
+        </nav>	
+        <div class="wrapper">
+            <div id="sidebar" class="sidebar">
+                <a href="#" class="sidebar-toggle sidebar-toggle sidebar-toggle-hidden">
+                    <i class="fa fa-2x fa-bars"></i>
+                </a>			
+                <div class="header">
+                    <div class="logo">
+                        <p class="text">{{ request.user|title }}</p>
+                    </div>
+                </div>
+                <hr />			
+                <h4 class="title">Menu</h4>
+                <ul class="menu">
+                    <li>
+                        <a href="{% url 'home' %}">
+                            <i class="fa fa-folder"></i>
+                            <span>Home</span>
+                        </a>										
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}">
+                            <i class="fa fa-battery-4"></i>
+                            <span>Logout</span>
+                        </a>										
+                    </li>	
+                    <li>
+              </ul>
+            </div>    
+            <div id="main" class="main">						
+                {% block content %}{% endblock %}
+            </div>		
+        </div>
     </body>
 
-    {% block extra_js %}
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    {% endblock %}
-</html>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>	
+    <script>
+        $(".sidebar-toggle").click(function(){
+            $("#sidebar").toggleClass("sidebar-collapse");
+            $("#main").toggleClass("main-expand");
+        })
+    </script>
+    {% block extra_js %}{% endblock %}
+</HTML>

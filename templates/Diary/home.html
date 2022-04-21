@@ -1,0 +1,155 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class = 'main-bg'>
+        <div class = 'main-wrapper'>
+            <div class = 'user-wrapper'>
+                <p class = 'heading'>Welcome {{ request.user }}</p>
+            </div>
+
+            <div class = 'diary-wrapper'>
+                <div class = 'diary-wrapper-top'>
+                    <h2>Diaries</h2>
+                    <a class = 'add-btn' href = '{% url "diary-create"%}'>Add Diary</a>
+                </div>
+                {% if diaries %}
+                    {% for d in diaries %}
+                        <div class = 'diary-container'>
+                            <a href = '{% url "diary-retrieve" d.pk %}' class = 'diary-heading'>{{ d.name }}</a>
+                            {% if d.summary %}
+                                <p>{{ d.summary }}</p>
+                            {% endif %}
+                            <div class = 'diary-date-info'>
+                                <p>Created on : &nbsp;{{ d.created_on }}</p>
+
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <p>Last modified : &nbsp;{{ d.last_modified }}</p>
+                            </div>
+                            <div class = 'action-wrapper'>
+                                <a href = '{% url "diary-update" d.pk %}'>Edit</a>
+                                <p>&nbsp;&nbsp;&nbsp;</p>
+                                <a href = '{% url "diary-delete" d.pk %}'>Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .main-bg {
+            display: flex;
+            flex-direction: column;
+            border: 0px solid black;
+            margin-top: 20px;
+            width: 100%;
+            padding: 30px;
+            background-color: aliceblue;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            border: 0px solid black;
+            margin-top: 15px;
+            width: 100%;
+            padding: 50px;
+            margin-top: 50px;
+            background-color: white;         
+        }
+
+        .diary-wrapper-top {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-btn {
+            border: none;
+            background-color: rgb(52, 114, 190);
+            color: white;
+            height: min-content;
+            padding: 9px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .add-btn:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+        .user-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .user-wrapper .heading {
+            font-size: 35px;
+            font-weight: 600;
+        }
+
+        .user-wrapper .sub-heading {
+            font-size: 18px;
+        }
+
+        .user-wrapper > * {
+            margin-top: 7px;
+        }
+
+        .diary-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 20px;
+            border-top: 1px solid rgb(166, 166, 166);
+        }
+
+        .diary-container {
+            border: 1px solid rgb(188, 188, 188);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            padding: 7px;
+            margin-top: 10px;
+        }
+
+        .diary-container > * {
+            margin: 3px;
+        }
+
+        .diary-heading {
+            font-size: 20px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .diary-heading:hover {
+            color: rgb(0, 162, 206);
+            text-decoration: none;
+        }
+
+        .diary-date-info {
+            display: flex;
+            flex-direction: row;
+            color: rgb(161, 161, 161);
+            font-size: 13px;
+        }
+
+        .action-wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .action-wrapper > a {
+            color: rgb(57, 57, 57);
+        }
+    </style>
+{% endblock %}

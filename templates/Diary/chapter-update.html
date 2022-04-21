@@ -1,0 +1,61 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+    {{ form.media }}
+{% endblock %}
+{% block content %}
+    <div class = 'main-bg'>
+        <div class = 'main-wrapper'>
+            <form action = '.' method = 'POST'>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type = 'submit' value = 'Save' class = 'save-btn'>
+            </form>
+            <button class = 'back-btn'>Back</button>
+        </div>
+    </div>
+
+    <style>
+        .main-bg {
+            display: flex;
+            flex-direction: column;
+            border: 0px solid black;
+            margin-top: 20px;
+            width: 100%;
+            padding: 30px;
+            background-color: aliceblue;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            border: 0px solid black;
+            margin-top: 15px;
+            width: 100%;
+            padding: 50px;
+            margin-top: 50px;
+            background-color: white;         
+        }
+
+        .save-btn {
+            border: none;
+            border-radius: 3px;
+            background-color: red;
+            color: white;
+            width: 100%;
+            padding: 7px;
+            margin-top: 10px;
+        }
+
+        .back-btn {
+            border: none;
+            border-radius: 3px;
+            background-color: green;
+            color: white;
+            padding: 7px;
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class = 'main-bg'>
+        <div class = 'main-wrapper'>
+            <div class = 'diary-wrapper'>
+                <p class = 'heading'>{{ diary.name }}</p>
+                <p class = 'sub-heading'>{{ diary.description }}</p>
+                <p class = 'sub-heading'>Author : {{ diary.author }}</p>
+                <p class = 'sub-heading'>Created on : {{ diary.created_on }}</p>
+                <p class = 'sub-heading'>Last Modified : {{ diary.last_modified }}</p>
+            </div>
+
+            <div class = 'chapter-wrapper'>
+                <div class = 'chapter-wrapper-top'>
+                    <h2>Chapters</h2>
+                    <a class = 'add-btn' href = '{% url "chapter-create"%}'>Add Chapter</a>
+                </div>
+                {% if chapters %}
+                    {% for c in chapters %}
+                        <div class = 'chapter-container'>
+                            <a href = '{% url "chapter-retrieve" c.pk %}' class = 'chapter-heading'>{{ c.name }}</a>
+                            {% if c.summary %}
+                                <p>{{ c.summary }}</p>
+                            {% endif %}
+                            <div class = 'chapter-date-info'>
+                                <p>Created on : &nbsp;{{ c.created_on }}</p>
+
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <p>Last modified : &nbsp;{{ c.last_modified }}</p>
+                            </div>
+                            <div class = 'action-wrapper'>
+                                <a href = '{% url "chapter-update" c.pk %}'>Edit</a>
+                                <p>&nbsp;&nbsp;&nbsp;</p>
+                                <a href = '{% url "chapter-delete" c.pk %}'>Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .main-bg {
+            display: flex;
+            flex-direction: column;
+            border: 0px solid black;
+            margin-top: 20px;
+            width: 100%;
+            padding: 30px;
+            background-color: aliceblue;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            border: 0px solid black;
+            margin-top: 15px;
+            width: 100%;
+            padding: 50px;
+            margin-top: 50px;
+            background-color: white;         
+        }
+
+        .chapter-wrapper-top {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-btn {
+            border: none;
+            background-color: rgb(52, 114, 190);
+            color: white;
+            height: min-content;
+            padding: 9px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .add-btn:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+        .diary-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .diary-wrapper .heading {
+            font-size: 35px;
+            font-weight: 600;
+        }
+
+        .diary-wrapper .sub-heading {
+            font-size: 18px;
+        }
+
+        .diary-wrapper > * {
+            margin-top: 7px;
+        }
+
+        .chapter-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 20px;
+            border-top: 1px solid rgb(166, 166, 166);
+        }
+
+        .chapter-container {
+            border: 1px solid rgb(188, 188, 188);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            padding: 7px;
+            margin-top: 10px;
+        }
+
+        .chapter-container > * {
+            margin: 3px;
+        }
+
+        .chapter-heading {
+            font-size: 20px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .chapter-heading:hover {
+            color: rgb(0, 162, 206);
+            text-decoration: none;
+        }
+
+        .chapter-date-info {
+            display: flex;
+            flex-direction: row;
+            color: rgb(161, 161, 161);
+            font-size: 13px;
+        }
+        .action-wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .action-wrapper > a {
+            color: rgb(57, 57, 57);
+        }
+    </style>
+{% endblock %}

@@ -19,13 +19,13 @@ class RegisterView(View):
         return render(request, 'Authentication/register.html', context)
 
     def post(self, request):
-        form = NewUserForm(request, data = request.POST)
+        form = NewUserForm(data = request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Registration successful. Login with your credentials.')
             return redirect('/auth/login/')
         else:
-            messages.error(request, 'Registration error.')
+            messages.error(request, form.errors)
             return redirect(self.request.path_info)   
 
 class LoginView(View):
@@ -33,6 +33,8 @@ class LoginView(View):
     Class based view to login a user.
     """
     def get(self, request):
+        if request.user.is_authenticated:
+            logout(request)
         form = AuthenticationForm()
         context = {
             'form' : form
@@ -40,21 +42,16 @@ class LoginView(View):
         return render(request, 'Authentication/login.html', context)
 
     def post(self, request):
-        form = AuthenticationForm(request, data = request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username = username, password = password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f'You are now logged in as {username}.')
-                return redirect('/')
-            else:
-                messages.error(request, 'Invalid username or password.')
-                return redirect(self.request.path_info)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username = username, password = password)
+        if user is not None:
+            login(request, user)
+            messages.info(request, f'You are now logged in as {username}.')
+            return redirect('/home/')
         else:
-            messages.error(request, 'Invalid input.')
-            return redirect(self.request.path_info)   
+            messages.error(request, 'Invalid username or password.')
+            return redirect(self.request.path_info) 
 
 class LogoutView(View):
     def get(self, request):
